@@ -62,6 +62,12 @@ We benchmarked the system on **Lysozyme (1HEL)** reconstruction from noisy proje
 
 ![Calibration Plot](./assets/calibration_plot.png)
 
+### Visual Verification
+To confirm that the low RMSD is structurally meaningful (not just a statistical artifact), we visualize the **Kabsch-aligned overlay** of the Ground Truth (Red) vs. Reconstruction (Blue).
+
+![Atomic Recovery](./assets/atomic_recovery.png)
+*Figure: Direct structural overlay shows near-perfect recovery of the backbone topology, with slight deviations only in flexible loop regions.*
+
 ---
 
 ## � Reproducing the Calibration Result
