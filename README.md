@@ -39,6 +39,15 @@ graph TD;
 - **CTF Simulation**: Models defocus, spherical aberration, and phase contrast in Fourier space.
 - **Differentiable**: Full gradient propagation through the imaging model to the latent structure.
 
+### 1. SE(3)-Equivariance Verification
+We validated the geometric correctness of the score model by rotating the input structure and confirming the output score rotates identically.
+- **Equivariance Error**: $1.0 \times 10^{-6}$ (Numerical Precision Limit).
+
+### 2. CTF Physics Integration
+The forward model explicitly simulates the Contrast Transfer Function (CTF), ensuring the reconstruction respects the zero-crossings and phase flips inherent to Cryo-EM imaging.
+
+![CTF Physics](./assets/ctf_visualization.png)
+
 ### 3. Bayesian Inference (`inference/`)
 - **Diffusion Posterior Sampling (DPS)**: Guided reverse diffusion $p(x_{t-1} | x_t, y)$.
 - **Coordinate Calibration**: Scales latent gradients to match physical Angstrom dimensions, preventing structural collapse.
@@ -48,6 +57,13 @@ graph TD;
 ## 📈 Results & Calibration
 
 We benchmarked the system on **Lysozyme (1HEL)** reconstruction from noisy projections.
+
+### 4. Failure Mode Diagnosis
+We explicitly diagnosed a **Scale Mismatch** between the latent prior ($z \sim \mathcal{N}(0, I)$) and the physical coordinate system.
+- **Symptom**: Uncalibrated reconstruction collapsed to Rg ~0.36Å (vs 0.61Å GT).
+- **Fix**: Coordinate Scaling ($\lambda=1.59$) restored the physical envelope.
+
+![Collapse Diagnostics](./assets/collapse_diagnostics.png)
 
 ### Calibration Sweep
 | $\alpha$ (Guidance) | Rg (Å) | Aligned RMSD (Å) | Status |
